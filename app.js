@@ -1,19 +1,12 @@
 import fs from 'fs/promises';
-console.clear();
 
-const addValue = (values, unit, index) => {
-  return {
-    ...values,
-    [unit]: index
-  }
-}
-
-async function main() {
+async function main(values) {
   let data = JSON.parse(await fs.readFile('./db.json', { encoding: 'utf8' }));
 
-  data = addValue(data, "mm", "0.001");
-  data = addValue(data, "km", "1000");
-  data = addValue(data, "yd", "0,9144");
+  data = {
+    ...data,
+    ...values
+  }
 
   data = JSON.stringify(data)
 
@@ -24,7 +17,7 @@ async function main() {
   }
 };
 
-main();
+main({"mm": "0.001", "km": "1000", "yd": "0,9144"});
 
 async function converteValues(data) {
   const result = {};
